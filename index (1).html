@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Noa Verdier — Web Designer</title>
+  <meta name="description" content="Portfolio de Noa Verdier, web designer freelance : interfaces, identités et sites web sur mesure.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Syne:wght@600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.18/dist/lenis.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="nav">
+    <a href="#hero" class="logo" data-scroll>NV<span>.</span></a>
+    <nav>
+      <a href="#about" data-scroll>À propos</a>
+      <a href="#work" data-scroll>Projets</a>
+      <a href="#skills" data-scroll>Skills</a>
+      <a href="#contact" data-scroll>Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section id="hero" class="hero">
+      <div id="vanta-bg"></div>
+      <div class="hero-content">
+        <p class="eyebrow">Web designer freelance · Lyon, France</p>
+        <h1 class="title" id="title">Noa Verdier</h1>
+        <p class="subtitle">Je dessine des interfaces qui se remarquent,<br>et qui se codent proprement.</p>
+        <a href="#contact" class="btn" data-scroll>Travaillons ensemble</a>
+      </div>
+      <div class="scroll-hint">Scroll ↓</div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="section">
+      <div class="container about-grid">
+        <div class="avatar reveal">
+          <div class="avatar-inner">NV</div>
+        </div>
+        <div>
+          <h2 class="reveal">À propos</h2>
+          <p class="reveal">Salut, moi c'est Noa. Depuis 7 ans, j'aide des marques, des start-ups et des créateurs à construire une présence en ligne qui leur ressemble. Je travaille à la frontière du design et du code : chaque pixel a une raison d'être, chaque animation raconte quelque chose.</p>
+          <p class="reveal">Quand je ne suis pas sur Figma, je suis probablement en train de chasser des polices de caractères rares ou de grimper dans le Vercors.</p>
+          <div class="stats">
+            <div class="stat reveal"><span class="num" data-count="7">0</span><small>ans d'expérience</small></div>
+            <div class="stat reveal"><span class="num" data-count="64">0</span><small>projets livrés</small></div>
+            <div class="stat reveal"><span class="num" data-count="23">0</span><small>clients heureux</small></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WORK -->
+    <section id="work" class="section">
+      <div class="container">
+        <h2 class="reveal">Projets sélectionnés</h2>
+        <div class="cards">
+          <article class="card reveal" style="--c1:#7c5cff;--c2:#00d4ff">
+            <span class="tag">E-commerce</span>
+            <h3>Kōri Studio</h3>
+            <p>Boutique en ligne pour une marque de céramique japonaise : direction artistique, UI et intégration.</p>
+          </article>
+          <article class="card reveal" style="--c1:#ff5c8a;--c2:#ffb347">
+            <span class="tag">Branding & Web</span>
+            <h3>Pulse Fitness</h3>
+            <p>Identité visuelle complète et site vitrine animé pour une salle de sport nouvelle génération.</p>
+          </article>
+          <article class="card reveal" style="--c1:#2de08f;--c2:#00a6a6">
+            <span class="tag">Application</span>
+            <h3>Greenly Dashboard</h3>
+            <p>Conception d'un tableau de bord pour suivre l'empreinte carbone des entreprises.</p>
+          </article>
+          <article class="card reveal" style="--c1:#ffd54a;--c2:#ff7a45">
+            <span class="tag">Landing page</span>
+            <h3>Atlas Travel</h3>
+            <p>Page de lancement immersive pour une app de voyages, avec scroll narratif et micro-interactions.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills" class="section">
+      <div class="container">
+        <h2 class="reveal">Compétences</h2>
+        <div class="skills">
+          <div class="skill reveal"><div class="skill-head"><span>UI / UX Design</span><span>95%</span></div><div class="bar"><i data-level="95"></i></div></div>
+          <div class="skill reveal"><div class="skill-head"><span>HTML / CSS</span><span>92%</span></div><div class="bar"><i data-level="92"></i></div></div>
+          <div class="skill reveal"><div class="skill-head"><span>JavaScript & animations</span><span>85%</span></div><div class="bar"><i data-level="85"></i></div></div>
+          <div class="skill reveal"><div class="skill-head"><span>Figma & prototypage</span><span>98%</span></div><div class="bar"><i data-level="98"></i></div></div>
+          <div class="skill reveal"><div class="skill-head"><span>Identité de marque</span><span>80%</span></div><div class="bar"><i data-level="80"></i></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section contact">
+      <div class="container">
+        <h2 class="reveal">Un projet en tête ?</h2>
+        <p class="reveal">Parlons-en. Je réponds en général sous 24h.</p>
+        <a class="mail reveal" href="mailto:hello@noaverdier.fr">hello@noaverdier.fr</a>
+        <div class="socials reveal">
+          <a href="#" target="_blank" rel="noopener">Dribbble</a>
+          <a href="#" target="_blank" rel="noopener">Behance</a>
+          <a href="#" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="#" target="_blank" rel="noopener">Instagram</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">© 2026 Noa Verdier — Fait avec Vanta.js, Anime.js & Lenis</footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanta@0.5.24/dist/vanta.net.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
