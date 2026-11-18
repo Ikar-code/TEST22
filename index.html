@@ -3,121 +3,362 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Noa Verdier — Web Designer</title>
-  <meta name="description" content="Portfolio de Noa Verdier, web designer freelance : interfaces, identités et sites web sur mesure.">
+  <title>Noa Verdier — Web Designer · Le Film</title>
+  <meta name="description" content="Portfolio cinématographique de Noa Verdier, web designer freelance : interfaces, identités et expériences web sur mesure.">
+  <meta name="theme-color" content="#07070c">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%237c5cff'/%3E%3Ctext x='16' y='22' font-size='16' font-weight='700' text-anchor='middle' fill='white' font-family='Arial'%3ENV%3C/text%3E%3C/svg%3E">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Syne:wght@600;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.18/dist/lenis.css">
   <link rel="stylesheet" href="style.css">
+  <noscript><style>.preloader{display:none!important}</style></noscript>
 </head>
 <body>
 
-  <header class="nav">
-    <a href="#hero" class="logo" data-scroll>NV<span>.</span></a>
+  <!-- ============ OVERLAYS CINÉMA ============ -->
+  <canvas class="grain" id="grain" aria-hidden="true"></canvas>
+  <div class="vignette" aria-hidden="true"></div>
+  <div class="spot" id="spot" aria-hidden="true"></div>
+  <div class="cursor" id="cursor" aria-hidden="true"><div class="cursor-ring"><span class="cursor-label"></span></div></div>
+  <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+
+  <!-- ============ PRELOADER ============ -->
+  <div class="preloader" id="preloader">
+    <div class="curtain curtain-top"></div>
+    <div class="curtain curtain-bottom"></div>
+    <div class="pre-inner">
+      <p class="pre-kicker">NV Productions présente</p>
+      <div class="pre-count"><span id="preNum">000</span><small>%</small></div>
+      <div class="pre-line"><i id="preBar"></i></div>
+      <p class="pre-text" id="preText">Chargement de la bobine…</p>
+    </div>
+  </div>
+
+  <!-- ============ BARRES LETTERBOX (HUD) ============ -->
+  <header class="bar bar-top">
+    <a href="#hero" class="logo magnetic" data-scroll data-cursor>NV<i>.</i></a>
+    <div class="rec" aria-hidden="true"><span class="rec-dot"></span>REC</div>
     <nav>
-      <a href="#about" data-scroll>À propos</a>
-      <a href="#work" data-scroll>Projets</a>
-      <a href="#skills" data-scroll>Skills</a>
-      <a href="#contact" data-scroll>Contact</a>
+      <a href="#about" data-scroll data-scramble>Acte I</a>
+      <a href="#work" data-scroll data-scramble>Projets</a>
+      <a href="#skills" data-scroll data-scramble>Skills</a>
+      <a href="#credits" data-scroll data-scroll-end data-scramble class="nav-cta">Contact</a>
     </nav>
   </header>
 
+  <div class="bar bar-bottom">
+    <div class="progress"><i id="progressBar"></i></div>
+    <div class="tc" id="timecode">00:00:00:00</div>
+    <div class="chapter" id="chapter">PROLOGUE</div>
+    <div class="fmt">24 FPS · 2.39:1</div>
+  </div>
+
   <main>
-    <!-- HERO -->
-    <section id="hero" class="hero">
-      <div id="vanta-bg"></div>
-      <div class="hero-content">
-        <p class="eyebrow">Web designer freelance · Lyon, France</p>
-        <h1 class="title" id="title">Noa Verdier</h1>
-        <p class="subtitle">Je dessine des interfaces qui se remarquent,<br>et qui se codent proprement.</p>
-        <a href="#contact" class="btn" data-scroll>Travaillons ensemble</a>
+
+    <!-- ============ HERO / GÉNÉRIQUE D'OUVERTURE ============ -->
+    <section id="hero" class="hero" data-chapter="PROLOGUE">
+      <div id="vanta-hero" class="vanta-layer"></div>
+      <div class="hero-shade"></div>
+
+      <div class="hero-inner" id="heroInner">
+        <p class="hero-pre">Un film de <strong>Noa Verdier</strong> — Web Designer</p>
+
+        <div class="hero-stage">
+          <h1 class="hero-title" id="heroTitle" aria-label="Designer de mondes numériques">
+            <span class="line" aria-hidden="true"><span class="split-chars">DESIGNER</span></span>
+            <span class="line serif" aria-hidden="true"><span class="split-chars">de mondes</span></span>
+            <span class="line" aria-hidden="true"><span class="split-chars">NUMÉRIQUES</span></span>
+          </h1>
+        </div>
+
+        <p class="hero-sub">Je transforme des marques en expériences web qu'on n'oublie pas.<br>Interfaces, identités, motion — le tout réalisé comme un long métrage.</p>
+
+        <div class="hero-cta">
+          <a href="#work" class="btn btn-primary magnetic" data-scroll data-cursor="PLAY">Lancer la séance</a>
+          <a href="#credits" class="btn btn-ghost magnetic" data-scroll data-scroll-end data-cursor="HELLO">Me contacter</a>
+        </div>
       </div>
-      <div class="scroll-hint">Scroll ↓</div>
+
+      <div class="hero-meta">
+        <span>Scène 01 — Prise 01</span>
+        <span class="scroll-hint">Scroll <b>↓</b></span>
+        <span>INT. ÉCRAN — NUIT</span>
+      </div>
     </section>
 
-    <!-- ABOUT -->
-    <section id="about" class="section">
+    <!-- ============ BANDEAU DÉFILANT ============ -->
+    <section class="marquee" aria-hidden="true">
+      <div class="mq-row" data-dir="-1">
+        <div class="mq-track"><div class="mq-group"><span>Design</span><i>✦</i><span>Code</span><i>✦</i><span>Motion</span><i>✦</i><span>Brand</span><i>✦</i><span>UX</span><i>✦</i><span>WebGL</span><i>✦</i></div></div>
+      </div>
+      <div class="mq-row" data-dir="1">
+        <div class="mq-track"><div class="mq-group"><span>Interfaces</span><i>✦</i><span>Identités</span><i>✦</i><span>Expériences</span><i>✦</i><span>Storytelling</span><i>✦</i></div></div>
+      </div>
+    </section>
+
+    <!-- ============ MANIFESTE (mots qui s'allument) ============ -->
+    <section id="manifesto" class="manifesto" data-chapter="PROLOGUE">
+      <div class="manifesto-sticky">
+        <p class="manifesto-text" id="manifestoText">Je ne fais pas des sites web. Je réalise des <em>films interactifs</em> où chaque scroll est une scène, chaque clic un rebondissement, et chaque visiteur le <em>héros</em> de l'histoire.</p>
+      </div>
+    </section>
+
+    <!-- ============ ACTE I : LE PERSONNAGE ============ -->
+    <section id="about" class="section about" data-chapter="ACTE I — LE PERSONNAGE">
       <div class="container about-grid">
-        <div class="avatar reveal">
-          <div class="avatar-inner">NV</div>
+
+        <div class="char-wrap" data-fade>
+          <div class="char-card" data-tilt>
+            <div class="orbit o1" style="--s:72%;--t:18s"><span class="chip">Figma</span><span class="chip" style="top:100%">Typo</span></div>
+            <div class="orbit o2" style="--s:98%;--t:28s"><span class="chip" style="left:15%;top:14%">Motion</span><span class="chip" style="left:85%;top:86%">WebGL</span></div>
+            <div class="mono-big">NV</div>
+            <div class="scan"></div>
+            <span class="hud hud-tl">ID · NV-0724</span>
+            <span class="hud hud-tr">LYON, FR</span>
+            <span class="hud hud-bl">RÔLE · WEB DESIGNER</span>
+            <span class="hud hud-br">● EN LIGNE</span>
+          </div>
         </div>
-        <div>
-          <h2 class="reveal">À propos</h2>
-          <p class="reveal">Salut, moi c'est Noa. Depuis 7 ans, j'aide des marques, des start-ups et des créateurs à construire une présence en ligne qui leur ressemble. Je travaille à la frontière du design et du code : chaque pixel a une raison d'être, chaque animation raconte quelque chose.</p>
-          <p class="reveal">Quand je ne suis pas sur Figma, je suis probablement en train de chasser des polices de caractères rares ou de grimper dans le Vercors.</p>
+
+        <div class="about-text">
+          <div class="act-label" data-fade>ACTE I<span>Le personnage</span></div>
+          <h2 data-split>Un designer qui pense <em>en scènes</em></h2>
+          <p data-fade>Salut, moi c'est Noa. Depuis 7 ans, j'aide des marques, des start-ups et des créateurs à construire une présence en ligne qui leur ressemble vraiment. Je travaille à la frontière du design et du code : chaque pixel a une raison d'être, chaque animation raconte quelque chose.</p>
+          <p data-fade>Quand je ne suis pas sur Figma, je suis probablement en train de chasser des polices rares, de monter des courts-métrages ou de grimper dans le Vercors.</p>
+          <div class="badge-live" data-fade><span class="pulse"></span>Disponible pour de nouveaux projets</div>
+
           <div class="stats">
-            <div class="stat reveal"><span class="num" data-count="7">0</span><small>ans d'expérience</small></div>
-            <div class="stat reveal"><span class="num" data-count="64">0</span><small>projets livrés</small></div>
-            <div class="stat reveal"><span class="num" data-count="23">0</span><small>clients heureux</small></div>
+            <div class="stat"><b class="num" data-count="7">0</b><small>ans d'expérience</small></div>
+            <div class="stat"><b class="num" data-count="64">0</b><small>projets livrés</small></div>
+            <div class="stat"><b class="num" data-count="12">0</b><small>prix &amp; mentions</small></div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- WORK -->
-    <section id="work" class="section">
-      <div class="container">
-        <h2 class="reveal">Projets sélectionnés</h2>
-        <div class="cards">
-          <article class="card reveal" style="--c1:#7c5cff;--c2:#00d4ff">
-            <span class="tag">E-commerce</span>
-            <h3>Kōri Studio</h3>
-            <p>Boutique en ligne pour une marque de céramique japonaise : direction artistique, UI et intégration.</p>
+    <!-- ============ ACTE II : LES SCÈNES (bobine horizontale) ============ -->
+    <section id="work" class="reel" data-chapter="ACTE II — LES SCÈNES">
+      <div class="reel-sticky">
+        <div class="reel-track" id="reelTrack">
+
+          <div class="reel-intro">
+            <div class="act-label" data-fade>ACTE II<span>Les scènes</span></div>
+            <h2 data-split>Projets <em>sélectionnés</em></h2>
+            <p data-fade>Continuez à faire défiler : la bobine se déroule.</p>
+            <div class="arrow-line" aria-hidden="true"><i></i></div>
+          </div>
+
+          <!-- Scène 01 -->
+          <article class="panel" data-cursor="VOIR">
+            <div class="frame">
+              <div class="art art-kori">
+                <i class="ring r1"></i><i class="ring r2"></i><i class="ring r3"></i>
+                <i class="bowl"></i>
+                <i class="dot d1"></i><i class="dot d2"></i><i class="dot d3"></i>
+              </div>
+              <div class="frame-hud"><span>SCÈNE 01</span><span>● REC</span></div>
+            </div>
+            <div class="panel-info">
+              <span class="panel-n">01</span>
+              <div>
+                <h3>Kōri Studio</h3>
+                <p>Boutique en ligne pour une marque de céramique japonaise : direction artistique, UI et intégration.</p>
+                <ul class="meta"><li>E-commerce</li><li>Direction artistique</li><li>2026</li></ul>
+              </div>
+            </div>
           </article>
-          <article class="card reveal" style="--c1:#ff5c8a;--c2:#ffb347">
-            <span class="tag">Branding & Web</span>
-            <h3>Pulse Fitness</h3>
-            <p>Identité visuelle complète et site vitrine animé pour une salle de sport nouvelle génération.</p>
+
+          <!-- Scène 02 -->
+          <article class="panel" data-cursor="VOIR">
+            <div class="frame">
+              <div class="art art-pulse">
+                <svg viewBox="0 0 800 300" preserveAspectRatio="none" aria-hidden="true">
+                  <path class="beat b2" pathLength="1000" d="M0 150 H190 L220 150 L250 70 L290 235 L330 105 L360 150 H520 L550 150 L580 85 L620 215 L650 150 H800"/>
+                  <path class="beat" pathLength="1000" d="M0 150 H190 L220 150 L250 70 L290 235 L330 105 L360 150 H520 L550 150 L580 85 L620 215 L650 150 H800"/>
+                </svg>
+                <div class="bpm"><b>128</b><small>BPM</small></div>
+              </div>
+              <div class="frame-hud"><span>SCÈNE 02</span><span>● REC</span></div>
+            </div>
+            <div class="panel-info">
+              <span class="panel-n">02</span>
+              <div>
+                <h3>Pulse Fitness</h3>
+                <p>Identité visuelle complète et site vitrine animé pour une salle de sport nouvelle génération.</p>
+                <ul class="meta"><li>Branding &amp; Web</li><li>Motion</li><li>2025</li></ul>
+              </div>
+            </div>
           </article>
-          <article class="card reveal" style="--c1:#2de08f;--c2:#00a6a6">
-            <span class="tag">Application</span>
-            <h3>Greenly Dashboard</h3>
-            <p>Conception d'un tableau de bord pour suivre l'empreinte carbone des entreprises.</p>
+
+          <!-- Scène 03 -->
+          <article class="panel" data-cursor="VOIR">
+            <div class="frame">
+              <div class="art art-bars">
+                <div class="bars">
+                  <i style="--h:38%;--d:-.2s"></i><i style="--h:62%;--d:-.9s"></i><i style="--h:48%;--d:-1.4s"></i>
+                  <i style="--h:80%;--d:-.5s"></i><i style="--h:55%;--d:-1.9s"></i><i style="--h:92%;--d:-.1s"></i>
+                  <i style="--h:70%;--d:-1.2s"></i><i style="--h:44%;--d:-2.2s"></i><i style="--h:86%;--d:-.7s"></i>
+                  <i style="--h:58%;--d:-1.6s"></i><i style="--h:74%;--d:-.3s"></i><i style="--h:40%;--d:-2.5s"></i>
+                </div>
+                <div class="kpi"><b>−32%</b><small>CO₂ / an</small></div>
+              </div>
+              <div class="frame-hud"><span>SCÈNE 03</span><span>● REC</span></div>
+            </div>
+            <div class="panel-info">
+              <span class="panel-n">03</span>
+              <div>
+                <h3>Greenly Dashboard</h3>
+                <p>Conception d'un tableau de bord pour suivre et réduire l'empreinte carbone des entreprises.</p>
+                <ul class="meta"><li>Application</li><li>UI / UX</li><li>2025</li></ul>
+              </div>
+            </div>
           </article>
-          <article class="card reveal" style="--c1:#ffd54a;--c2:#ff7a45">
-            <span class="tag">Landing page</span>
-            <h3>Atlas Travel</h3>
-            <p>Page de lancement immersive pour une app de voyages, avec scroll narratif et micro-interactions.</p>
+
+          <!-- Scène 04 -->
+          <article class="panel" data-cursor="VOIR">
+            <div class="frame">
+              <div class="art art-atlas">
+                <i class="stars"></i><i class="sun"></i>
+                <i class="mt m1"></i><i class="mt m2"></i><i class="mt m3"></i>
+              </div>
+              <div class="frame-hud"><span>SCÈNE 04</span><span>● REC</span></div>
+            </div>
+            <div class="panel-info">
+              <span class="panel-n">04</span>
+              <div>
+                <h3>Atlas Travel</h3>
+                <p>Page de lancement immersive pour une app de voyages : scroll narratif et micro-interactions.</p>
+                <ul class="meta"><li>Landing page</li><li>Motion</li><li>2024</li></ul>
+              </div>
+            </div>
           </article>
+
+          <!-- Outro -->
+          <div class="panel panel-outro">
+            <h3>Et si le prochain <em>chapitre</em> était le vôtre ?</h3>
+            <a href="#credits" class="btn btn-primary magnetic" data-scroll data-scroll-end data-cursor="GO">Lancer la production</a>
+          </div>
+
         </div>
       </div>
     </section>
 
-    <!-- SKILLS -->
-    <section id="skills" class="section">
+    <!-- ============ ACTE III : LE SAVOIR-FAIRE ============ -->
+    <section id="skills" class="section skills" data-chapter="ACTE III — LE SAVOIR-FAIRE">
       <div class="container">
-        <h2 class="reveal">Compétences</h2>
-        <div class="skills">
-          <div class="skill reveal"><div class="skill-head"><span>UI / UX Design</span><span>95%</span></div><div class="bar"><i data-level="95"></i></div></div>
-          <div class="skill reveal"><div class="skill-head"><span>HTML / CSS</span><span>92%</span></div><div class="bar"><i data-level="92"></i></div></div>
-          <div class="skill reveal"><div class="skill-head"><span>JavaScript & animations</span><span>85%</span></div><div class="bar"><i data-level="85"></i></div></div>
-          <div class="skill reveal"><div class="skill-head"><span>Figma & prototypage</span><span>98%</span></div><div class="bar"><i data-level="98"></i></div></div>
-          <div class="skill reveal"><div class="skill-head"><span>Identité de marque</span><span>80%</span></div><div class="bar"><i data-level="80"></i></div></div>
+        <div class="act-label" data-fade>ACTE III<span>Le savoir-faire</span></div>
+        <h2 data-split>Mes <em>armes</em> favorites</h2>
+
+        <ul class="skill-list">
+          <li class="skill" data-cursor="+">
+            <span class="sk-idx">01</span><span class="sk-name">UI / UX Design</span>
+            <span class="sk-tools">Recherche · Wireframes · Design systems</span>
+            <span class="sk-lvl"><b data-count="95">0</b>%</span><i class="sk-bar"><u data-level="95"></u></i>
+          </li>
+          <li class="skill" data-cursor="+">
+            <span class="sk-idx">02</span><span class="sk-name">Figma &amp; Prototypage</span>
+            <span class="sk-tools">Auto-layout · Variables · Prototypes</span>
+            <span class="sk-lvl"><b data-count="98">0</b>%</span><i class="sk-bar"><u data-level="98"></u></i>
+          </li>
+          <li class="skill" data-cursor="+">
+            <span class="sk-idx">03</span><span class="sk-name">Front-end</span>
+            <span class="sk-tools">HTML · CSS · JavaScript moderne</span>
+            <span class="sk-lvl"><b data-count="92">0</b>%</span><i class="sk-bar"><u data-level="92"></u></i>
+          </li>
+          <li class="skill" data-cursor="+">
+            <span class="sk-idx">04</span><span class="sk-name">Motion &amp; WebGL</span>
+            <span class="sk-tools">Anime.js · Three.js · Vanta · Lenis</span>
+            <span class="sk-lvl"><b data-count="88">0</b>%</span><i class="sk-bar"><u data-level="88"></u></i>
+          </li>
+          <li class="skill" data-cursor="+">
+            <span class="sk-idx">05</span><span class="sk-name">Identité de marque</span>
+            <span class="sk-tools">Logo · Typographie · Direction artistique</span>
+            <span class="sk-lvl"><b data-count="90">0</b>%</span><i class="sk-bar"><u data-level="90"></u></i>
+          </li>
+          <li class="skill" data-cursor="+">
+            <span class="sk-idx">06</span><span class="sk-name">Accessibilité &amp; perf</span>
+            <span class="sk-tools">WCAG · Core Web Vitals · SEO</span>
+            <span class="sk-lvl"><b data-count="82">0</b>%</span><i class="sk-bar"><u data-level="82"></u></i>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ ACTE IV : LE SCÉNARIO ============ -->
+    <section id="process" class="section process" data-chapter="ACTE IV — LE SCÉNARIO">
+      <div class="container">
+        <div class="act-label" data-fade>ACTE IV<span>Le scénario</span></div>
+        <h2 data-split>Du premier plan au <em>générique</em></h2>
+
+        <div class="steps" id="steps">
+          <div class="steps-line"><i id="stepsLine"></i></div>
+
+          <div class="step">
+            <span class="step-n">01</span>
+            <h3>Découverte</h3>
+            <p>On pose le décor : objectifs, public, ambiance. J'écoute avant de dessiner la moindre ligne.</p>
+          </div>
+          <div class="step">
+            <span class="step-n">02</span>
+            <h3>Storyboard</h3>
+            <p>Wireframes, moodboards et direction artistique. On valide l'histoire avant de tourner.</p>
+          </div>
+          <div class="step">
+            <span class="step-n">03</span>
+            <h3>Tournage</h3>
+            <p>Design d'interface haute fidélité, motion et prototypes interactifs : le film prend vie.</p>
+          </div>
+          <div class="step">
+            <span class="step-n">04</span>
+            <h3>Post-production</h3>
+            <p>Intégration pixel-perfect, animations, performances, mise en ligne. Clap de fin.</p>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- CONTACT -->
-    <section id="contact" class="section contact">
-      <div class="container">
-        <h2 class="reveal">Un projet en tête ?</h2>
-        <p class="reveal">Parlons-en. Je réponds en général sous 24h.</p>
-        <a class="mail reveal" href="mailto:hello@noaverdier.fr">hello@noaverdier.fr</a>
-        <div class="socials reveal">
-          <a href="#" target="_blank" rel="noopener">Dribbble</a>
-          <a href="#" target="_blank" rel="noopener">Behance</a>
-          <a href="#" target="_blank" rel="noopener">LinkedIn</a>
-          <a href="#" target="_blank" rel="noopener">Instagram</a>
+    <!-- ============ GÉNÉRIQUE DE FIN / CONTACT ============ -->
+    <section id="credits" class="credits" data-chapter="GÉNÉRIQUE DE FIN">
+      <div class="credits-sticky">
+        <div id="vanta-fog" class="vanta-layer"></div>
+        <div class="credits-shade"></div>
+
+        <div class="credits-col" id="creditsCol">
+          <p class="cr-title">Générique</p>
+
+          <div class="cr-block"><small>Direction artistique</small><strong>Noa Verdier</strong></div>
+          <div class="cr-block"><small>Design d'interface</small><strong>Noa Verdier</strong></div>
+          <div class="cr-block"><small>Développement front-end</small><strong>Noa Verdier</strong></div>
+          <div class="cr-block"><small>Motion design</small><strong>Noa Verdier</strong></div>
+          <div class="cr-block"><small>Café</small><strong>Beaucoup trop</strong></div>
+          <div class="cr-block"><small>Avec la participation de</small><strong>Vanta.js · Anime.js · Lenis</strong></div>
+          <div class="cr-block"><small>Remerciements</small><strong>Mes clients &amp; les montagnes du Vercors</strong></div>
+
+          <div class="cr-final">
+            <p class="cr-kicker">Un projet en tête ?</p>
+            <a class="cr-mail magnetic" href="mailto:hello@noaverdier.fr" data-cursor="ÉCRIRE">hello@noaverdier.fr</a>
+            <div class="cr-social">
+              <a href="#" target="_blank" rel="noopener" data-scramble>Dribbble</a>
+              <a href="#" target="_blank" rel="noopener" data-scramble>Behance</a>
+              <a href="#" target="_blank" rel="noopener" data-scramble>LinkedIn</a>
+              <a href="#" target="_blank" rel="noopener" data-scramble>Instagram</a>
+            </div>
+            <p class="fin">FIN</p>
+            <button class="btn btn-ghost magnetic" id="replay" type="button" data-cursor="↺">Rejouer le film</button>
+            <p class="copyright">© 2026 Noa Verdier — Tous droits réservés</p>
+          </div>
         </div>
       </div>
     </section>
+
   </main>
 
-  <footer class="footer">© 2026 Noa Verdier — Fait avec Vanta.js, Anime.js & Lenis</footer>
-
+  <!-- ============ LIBRAIRIES ============ -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vanta@0.5.24/dist/vanta.net.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanta@0.5.24/dist/vanta.fog.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
   <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
   <script src="script.js"></script>
