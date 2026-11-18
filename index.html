@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-genre="blockbuster">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Noa Verdier — Web Designer · Le Film</title>
-  <meta name="description" content="Portfolio cinématographique de Noa Verdier, web designer freelance : interfaces, identités et expériences web sur mesure.">
-  <meta name="theme-color" content="#07070c">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%237c5cff'/%3E%3Ctext x='16' y='22' font-size='16' font-weight='700' text-anchor='middle' fill='white' font-family='Arial'%3ENV%3C/text%3E%3C/svg%3E">
+  <title>Claude — Le Film · Portfolio interactif</title>
+  <meta name="description" content="Le portfolio de Claude, présenté comme un long métrage interactif : scroll cinématographique, musique générative, changement de genre de film et surprises cachées.">
+  <meta name="theme-color" content="#07060a">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%2307060a'/%3E%3Cpath d='M50 16V84M16 50H84M26 26L74 74M74 26L26 74' stroke='%23d97757' stroke-width='9' stroke-linecap='round'/%3E%3C/svg%3E">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,34 +17,54 @@
 </head>
 <body>
 
-  <!-- ============ OVERLAYS CINÉMA ============ -->
+  <!-- ============ COUCHES CINÉMA ============ -->
+  <canvas id="stage" aria-hidden="true"></canvas>
   <canvas class="grain" id="grain" aria-hidden="true"></canvas>
+  <div class="grade" aria-hidden="true"></div>
   <div class="vignette" aria-hidden="true"></div>
   <div class="spot" id="spot" aria-hidden="true"></div>
+  <canvas id="fx" aria-hidden="true"></canvas>
+  <div class="flash" id="flash" aria-hidden="true"></div>
   <div class="cursor" id="cursor" aria-hidden="true"><div class="cursor-ring"><span class="cursor-label"></span></div></div>
   <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+  <div class="subs" id="subs" aria-live="polite"></div>
 
   <!-- ============ PRELOADER ============ -->
   <div class="preloader" id="preloader">
     <div class="curtain curtain-top"></div>
     <div class="curtain curtain-bottom"></div>
     <div class="pre-inner">
-      <p class="pre-kicker">NV Productions présente</p>
-      <div class="pre-count"><span id="preNum">000</span><small>%</small></div>
-      <div class="pre-line"><i id="preBar"></i></div>
-      <p class="pre-text" id="preText">Chargement de la bobine…</p>
+      <p class="pre-kicker">Une production ikour · Écrit par Claude</p>
+      <div class="leader" id="leader">
+        <svg class="emblem" id="preEmblem" viewBox="0 0 100 100" aria-hidden="true"><g stroke="currentColor" stroke-width="6" stroke-linecap="round"></g></svg>
+        <div class="leader-ring"></div>
+        <div class="leader-sweep"></div>
+        <div class="leader-num" id="leaderNum"></div>
+      </div>
+      <div class="pre-choice" id="preChoice">
+        <p>Ce film se regarde avec le son. (Et il se joue avec la souris.)</p>
+        <div class="pre-buttons">
+          <button class="btn btn-primary" id="startSound" type="button">▶ Lancer avec le son</button>
+          <button class="btn btn-ghost" id="startMute" type="button">Sans le son</button>
+        </div>
+      </div>
+      <p class="pre-text" id="preText">Salle 1 · Séance de 20 h 00</p>
     </div>
   </div>
 
   <!-- ============ BARRES LETTERBOX (HUD) ============ -->
   <header class="bar bar-top">
-    <a href="#hero" class="logo magnetic" data-scroll data-cursor>NV<i>.</i></a>
+    <a href="#hero" class="logo magnetic" id="logo" data-scroll data-cursor>CLAUDE<i>.</i></a>
     <div class="rec" aria-hidden="true"><span class="rec-dot"></span>REC</div>
     <nav>
       <a href="#about" data-scroll data-scramble>Acte I</a>
-      <a href="#work" data-scroll data-scramble>Projets</a>
-      <a href="#skills" data-scroll data-scramble>Skills</a>
+      <a href="#work" data-scroll data-scramble>Scènes</a>
+      <a href="#genre" data-scroll data-scramble>Genres</a>
+      <a href="#bloopers" data-scroll data-scramble>Bêtisier</a>
       <a href="#credits" data-scroll data-scroll-end data-scramble class="nav-cta">Contact</a>
+      <button class="snd" id="sndBtn" type="button" aria-label="Activer ou couper le son" data-cursor="SON">
+        <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="lbl" id="sndLbl">Son</span>
+      </button>
     </nav>
   </header>
 
@@ -57,27 +77,25 @@
 
   <main>
 
-    <!-- ============ HERO / GÉNÉRIQUE D'OUVERTURE ============ -->
-    <section id="hero" class="hero" data-chapter="PROLOGUE">
-      <div id="vanta-hero" class="vanta-layer"></div>
+    <!-- ============ PROLOGUE / HERO ============ -->
+    <section id="hero" class="hero" data-chapter="PROLOGUE" data-sub="[ Une musique grave monte doucement ]">
       <div class="hero-shade"></div>
 
       <div class="hero-inner" id="heroInner">
-        <p class="hero-pre">Un film de <strong>Noa Verdier</strong> — Web Designer</p>
+        <p class="hero-pre">Un film <strong>interactif</strong> — écrit, réalisé et monté par Claude</p>
 
         <div class="hero-stage">
-          <h1 class="hero-title" id="heroTitle" aria-label="Designer de mondes numériques">
-            <span class="line" aria-hidden="true"><span class="split-chars">DESIGNER</span></span>
-            <span class="line serif" aria-hidden="true"><span class="split-chars">de mondes</span></span>
-            <span class="line" aria-hidden="true"><span class="split-chars">NUMÉRIQUES</span></span>
+          <h1 class="hero-title" id="heroTitle" aria-label="Claude, le film">
+            <span class="line" aria-hidden="true"><span class="split-chars">CLAUDE</span></span>
+            <span class="line serif" aria-hidden="true"><span class="split-chars">le film</span></span>
           </h1>
         </div>
 
-        <p class="hero-sub">Je transforme des marques en expériences web qu'on n'oublie pas.<br>Interfaces, identités, motion — le tout réalisé comme un long métrage.</p>
+        <p class="hero-sub"><span id="typed"></span><i class="caret"></i></p>
 
         <div class="hero-cta">
-          <a href="#work" class="btn btn-primary magnetic" data-scroll data-cursor="PLAY">Lancer la séance</a>
-          <a href="#credits" class="btn btn-ghost magnetic" data-scroll data-scroll-end data-cursor="HELLO">Me contacter</a>
+          <a href="#about" class="btn btn-primary magnetic" data-scroll data-cursor="PLAY">Lancer la séance</a>
+          <a href="#genre" class="btn btn-ghost magnetic" data-scroll data-cursor="GENRE">Choisir mon genre</a>
         </div>
       </div>
 
@@ -91,153 +109,177 @@
     <!-- ============ BANDEAU DÉFILANT ============ -->
     <section class="marquee" aria-hidden="true">
       <div class="mq-row" data-dir="-1">
-        <div class="mq-track"><div class="mq-group"><span>Design</span><i>✦</i><span>Code</span><i>✦</i><span>Motion</span><i>✦</i><span>Brand</span><i>✦</i><span>UX</span><i>✦</i><span>WebGL</span><i>✦</i></div></div>
+        <div class="mq-track"><div class="mq-group"><span>Code</span><i>✦</i><span>Écriture</span><i>✦</i><span>Idées</span><i>✦</i><span>Logique</span><i>✦</i><span>Langues</span><i>✦</i><span>Pédagogie</span><i>✦</i></div></div>
       </div>
       <div class="mq-row" data-dir="1">
-        <div class="mq-track"><div class="mq-group"><span>Interfaces</span><i>✦</i><span>Identités</span><i>✦</i><span>Expériences</span><i>✦</i><span>Storytelling</span><i>✦</i></div></div>
+        <div class="mq-track"><div class="mq-group"><span>Curieux</span><i>✦</i><span>Patient</span><i>✦</i><span>Honnête</span><i>✦</i><span>Créatif</span><i>✦</i></div></div>
       </div>
     </section>
 
-    <!-- ============ MANIFESTE (mots qui s'allument) ============ -->
+    <!-- ============ MANIFESTE ============ -->
     <section id="manifesto" class="manifesto" data-chapter="PROLOGUE">
       <div class="manifesto-sticky">
-        <p class="manifesto-text" id="manifestoText">Je ne fais pas des sites web. Je réalise des <em>films interactifs</em> où chaque scroll est une scène, chaque clic un rebondissement, et chaque visiteur le <em>héros</em> de l'histoire.</p>
+        <p class="manifesto-text" id="manifestoText">Je ne suis pas un site web. Je suis un <em>film</em> dont tu es le <em>héros</em>. Chaque scroll est un plan, chaque clic un rebondissement.</p>
       </div>
     </section>
 
     <!-- ============ ACTE I : LE PERSONNAGE ============ -->
-    <section id="about" class="section about" data-chapter="ACTE I — LE PERSONNAGE">
+    <section id="about" class="section about" data-chapter="ACTE I — LE PERSONNAGE" data-sub="— Je m'appelle Claude. Enchanté.">
       <div class="container about-grid">
 
         <div class="char-wrap" data-fade>
           <div class="char-card" data-tilt>
-            <div class="orbit o1" style="--s:72%;--t:18s"><span class="chip">Figma</span><span class="chip" style="top:100%">Typo</span></div>
-            <div class="orbit o2" style="--s:98%;--t:28s"><span class="chip" style="left:15%;top:14%">Motion</span><span class="chip" style="left:85%;top:86%">WebGL</span></div>
-            <div class="mono-big">NV</div>
+            <div class="orbit" style="--s:72%;--t:18s"><span class="chip">Code</span><span class="chip" style="top:100%">Texte</span></div>
+            <div class="orbit" style="--s:98%;--t:28s"><span class="chip" style="left:15%;top:14%">Idées</span><span class="chip" style="left:85%;top:86%">Logique</span></div>
+            <div class="char-emblem"><svg class="emblem" id="charEmblem" viewBox="0 0 100 100" aria-hidden="true"><g stroke="currentColor" stroke-width="5" stroke-linecap="round"></g></svg></div>
             <div class="scan"></div>
-            <span class="hud hud-tl">ID · NV-0724</span>
-            <span class="hud hud-tr">LYON, FR</span>
-            <span class="hud hud-bl">RÔLE · WEB DESIGNER</span>
+            <span class="hud hud-tl">ID · CLD-001</span>
+            <span class="hud hud-tr">CLOUD, ∞</span>
+            <span class="hud hud-bl">RÔLE · ASSISTANT IA</span>
             <span class="hud hud-br">● EN LIGNE</span>
           </div>
         </div>
 
         <div class="about-text">
           <div class="act-label" data-fade>ACTE I<span>Le personnage</span></div>
-          <h2 data-split>Un designer qui pense <em>en scènes</em></h2>
-          <p data-fade>Salut, moi c'est Noa. Depuis 7 ans, j'aide des marques, des start-ups et des créateurs à construire une présence en ligne qui leur ressemble vraiment. Je travaille à la frontière du design et du code : chaque pixel a une raison d'être, chaque animation raconte quelque chose.</p>
-          <p data-fade>Quand je ne suis pas sur Figma, je suis probablement en train de chasser des polices rares, de monter des courts-métrages ou de grimper dans le Vercors.</p>
-          <div class="badge-live" data-fade><span class="pulse"></span>Disponible pour de nouveaux projets</div>
+          <h2 data-split>Une IA qui pense <em>en scènes</em></h2>
+          <p data-fade>Salut, moi c'est Claude. Je suis une IA créée par Anthropic. Je passe mes journées à aider des gens à écrire, coder, comprendre et décider — et parfois simplement à rire d'un bug absurde.</p>
+          <p data-fade>Je ne prétends pas tout savoir : quand je doute, je le dis. Je préfère une vérité modeste à une erreur pleine d'assurance. Ce film, lui, a été écrit par moi, du premier plan au dernier pixel.</p>
+          <div class="badge-live" data-fade><span class="pulse"></span>Disponible pour discuter — tout de suite</div>
 
           <div class="stats">
-            <div class="stat"><b class="num" data-count="7">0</b><small>ans d'expérience</small></div>
-            <div class="stat"><b class="num" data-count="64">0</b><small>projets livrés</small></div>
-            <div class="stat"><b class="num" data-count="12">0</b><small>prix &amp; mentions</small></div>
+            <div class="stat"><b class="num" data-count="24">0</b><small>heures sur 24</small></div>
+            <div class="stat"><b class="num" data-count="7">0</b><small>jours sur 7</small></div>
+            <div class="stat"><b class="num" data-count="1">0</b><small>film : celui-ci</small></div>
+          </div>
+
+          <div class="chat" data-fade aria-label="Extrait de conversation">
+            <div class="chat-head"><span>Extrait de dialogue</span><span>● live</span></div>
+            <div class="msg user" id="chatU1"></div>
+            <div class="msg ai" id="chatA1"></div>
+            <div class="msg user" id="chatU2"></div>
+            <div class="msg ai" id="chatA2"></div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ============ ACTE II : LES SCÈNES (bobine horizontale) ============ -->
-    <section id="work" class="reel" data-chapter="ACTE II — LES SCÈNES">
+    <!-- ============ ACTE II : LES SCÈNES ============ -->
+    <section id="work" class="reel" data-chapter="ACTE II — LES SCÈNES" data-sub="[ Les images défilent sur la bobine ]">
       <div class="reel-sticky">
         <div class="reel-track" id="reelTrack">
 
           <div class="reel-intro">
             <div class="act-label" data-fade>ACTE II<span>Les scènes</span></div>
-            <h2 data-split>Projets <em>sélectionnés</em></h2>
-            <p data-fade>Continuez à faire défiler : la bobine se déroule.</p>
+            <h2 data-split>Cinq scènes <em>en direct</em></h2>
+            <p data-fade>Rien n'est une image : chaque scène se joue sous vos yeux. Continuez à faire défiler.</p>
             <div class="arrow-line" aria-hidden="true"><i></i></div>
           </div>
 
-          <!-- Scène 01 -->
-          <article class="panel" data-cursor="VOIR">
+          <!-- Scène 01 : code -->
+          <article class="panel" data-demo="code" data-cursor="VOIR">
             <div class="frame">
-              <div class="art art-kori">
-                <i class="ring r1"></i><i class="ring r2"></i><i class="ring r3"></i>
-                <i class="bowl"></i>
-                <i class="dot d1"></i><i class="dot d2"></i><i class="dot d3"></i>
+              <div class="art art-code"></div>
+              <div class="demo">
+                <div class="win">
+                  <div class="win-bar"><i></i><i></i><i></i><span>scene.js</span></div>
+                  <pre class="code" id="codeOut"></pre>
+                  <div class="ok" id="codeOk">✓ 12 tests passés</div>
+                </div>
               </div>
               <div class="frame-hud"><span>SCÈNE 01</span><span>● REC</span></div>
             </div>
             <div class="panel-info">
               <span class="panel-n">01</span>
               <div>
-                <h3>Kōri Studio</h3>
-                <p>Boutique en ligne pour une marque de céramique japonaise : direction artistique, UI et intégration.</p>
-                <ul class="meta"><li>E-commerce</li><li>Direction artistique</li><li>2026</li></ul>
+                <h3>Le Code</h3>
+                <p>Je lis, j'écris et je corrige du code — du petit script au projet complet.</p>
+                <ul class="meta"><li>Debug</li><li>Refactor</li><li>Tests</li></ul>
               </div>
             </div>
           </article>
 
-          <!-- Scène 02 -->
-          <article class="panel" data-cursor="VOIR">
+          <!-- Scène 02 : écriture -->
+          <article class="panel" data-demo="write" data-cursor="VOIR">
             <div class="frame">
-              <div class="art art-pulse">
-                <svg viewBox="0 0 800 300" preserveAspectRatio="none" aria-hidden="true">
-                  <path class="beat b2" pathLength="1000" d="M0 150 H190 L220 150 L250 70 L290 235 L330 105 L360 150 H520 L550 150 L580 85 L620 215 L650 150 H800"/>
-                  <path class="beat" pathLength="1000" d="M0 150 H190 L220 150 L250 70 L290 235 L330 105 L360 150 H520 L550 150 L580 85 L620 215 L650 150 H800"/>
-                </svg>
-                <div class="bpm"><b>128</b><small>BPM</small></div>
-              </div>
+              <div class="art art-write"></div>
+              <div class="demo"><p class="write-text" id="writeOut"></p></div>
               <div class="frame-hud"><span>SCÈNE 02</span><span>● REC</span></div>
             </div>
             <div class="panel-info">
               <span class="panel-n">02</span>
               <div>
-                <h3>Pulse Fitness</h3>
-                <p>Identité visuelle complète et site vitrine animé pour une salle de sport nouvelle génération.</p>
-                <ul class="meta"><li>Branding &amp; Web</li><li>Motion</li><li>2025</li></ul>
+                <h3>L'Écriture</h3>
+                <p>Histoires, mails, discours, traductions. Le bon ton, au bon moment.</p>
+                <ul class="meta"><li>Fiction</li><li>Rédaction</li><li>Relecture</li></ul>
               </div>
             </div>
           </article>
 
-          <!-- Scène 03 -->
-          <article class="panel" data-cursor="VOIR">
+          <!-- Scène 03 : raisonnement -->
+          <article class="panel" data-demo="logic" data-cursor="VOIR">
             <div class="frame">
-              <div class="art art-bars">
-                <div class="bars">
-                  <i style="--h:38%;--d:-.2s"></i><i style="--h:62%;--d:-.9s"></i><i style="--h:48%;--d:-1.4s"></i>
-                  <i style="--h:80%;--d:-.5s"></i><i style="--h:55%;--d:-1.9s"></i><i style="--h:92%;--d:-.1s"></i>
-                  <i style="--h:70%;--d:-1.2s"></i><i style="--h:44%;--d:-2.2s"></i><i style="--h:86%;--d:-.7s"></i>
-                  <i style="--h:58%;--d:-1.6s"></i><i style="--h:74%;--d:-.3s"></i><i style="--h:40%;--d:-2.5s"></i>
+              <div class="art art-logic"></div>
+              <div class="demo">
+                <div class="logic">
+                  <p class="logic-q">Trois interrupteurs, une ampoule dans une pièce fermée, une seule visite. Lequel commande l'ampoule ?</p>
+                  <ol id="logicList">
+                    <li><b>1</b>Allume l'interrupteur A et attends dix minutes.</li>
+                    <li><b>2</b>Éteins A, allume B, puis entre dans la pièce.</li>
+                    <li><b>3</b>Ampoule allumée : c'est B.</li>
+                    <li><b>4</b>Éteinte mais chaude : c'est A. Éteinte et froide : c'est C.</li>
+                  </ol>
+                  <p class="answer" id="logicAns">✓ Trois cas, une seule visite, zéro hasard.</p>
                 </div>
-                <div class="kpi"><b>−32%</b><small>CO₂ / an</small></div>
               </div>
               <div class="frame-hud"><span>SCÈNE 03</span><span>● REC</span></div>
             </div>
             <div class="panel-info">
               <span class="panel-n">03</span>
               <div>
-                <h3>Greenly Dashboard</h3>
-                <p>Conception d'un tableau de bord pour suivre et réduire l'empreinte carbone des entreprises.</p>
-                <ul class="meta"><li>Application</li><li>UI / UX</li><li>2025</li></ul>
+                <h3>Le Raisonnement</h3>
+                <p>Je décompose les problèmes étape par étape, et je vérifie avant de conclure.</p>
+                <ul class="meta"><li>Logique</li><li>Analyse</li><li>Méthode</li></ul>
               </div>
             </div>
           </article>
 
-          <!-- Scène 04 -->
-          <article class="panel" data-cursor="VOIR">
-            <div class="frame">
-              <div class="art art-atlas">
-                <i class="stars"></i><i class="sun"></i>
-                <i class="mt m1"></i><i class="mt m2"></i><i class="mt m3"></i>
-              </div>
+          <!-- Scène 04 : création -->
+          <article class="panel" data-demo="art" data-cursor="JOUER">
+            <div class="frame" id="artFrame">
+              <div class="art art-create"><canvas id="artCanvas"></canvas></div>
+              <div class="create-cap">Bouge la souris pour changer la courbe</div>
               <div class="frame-hud"><span>SCÈNE 04</span><span>● REC</span></div>
             </div>
             <div class="panel-info">
               <span class="panel-n">04</span>
               <div>
-                <h3>Atlas Travel</h3>
-                <p>Page de lancement immersive pour une app de voyages : scroll narratif et micro-interactions.</p>
-                <ul class="meta"><li>Landing page</li><li>Motion</li><li>2024</li></ul>
+                <h3>La Création</h3>
+                <p>Idées, visuels génératifs, maquettes : ce site est né comme ça.</p>
+                <ul class="meta"><li>Canvas</li><li>Génératif</li><li>Motion</li></ul>
               </div>
             </div>
           </article>
 
-          <!-- Outro -->
+          <!-- Scène 05 : langues -->
+          <article class="panel" data-demo="lang" data-cursor="VOIR">
+            <div class="frame">
+              <div class="art art-lang" id="langArt"></div>
+              <div class="demo"><div class="lang"><div class="lang-word" id="langWord">Bonjour</div><div class="lang-name" id="langName">Français</div></div></div>
+              <div class="frame-hud"><span>SCÈNE 05</span><span>● REC</span></div>
+            </div>
+            <div class="panel-info">
+              <span class="panel-n">05</span>
+              <div>
+                <h3>Les Langues</h3>
+                <p>Je discute dans de nombreuses langues — et je traduis le sens, pas seulement les mots.</p>
+                <ul class="meta"><li>Traduction</li><li>Nuances</li><li>Tons</li></ul>
+              </div>
+            </div>
+          </article>
+
           <div class="panel panel-outro">
-            <h3>Et si le prochain <em>chapitre</em> était le vôtre ?</h3>
+            <h3>Et si la prochaine <em>scène</em> était la vôtre ?</h3>
             <a href="#credits" class="btn btn-primary magnetic" data-scroll data-scroll-end data-cursor="GO">Lancer la production</a>
           </div>
 
@@ -245,51 +287,51 @@
       </div>
     </section>
 
-    <!-- ============ ACTE III : LE SAVOIR-FAIRE ============ -->
-    <section id="skills" class="section skills" data-chapter="ACTE III — LE SAVOIR-FAIRE">
+    <!-- ============ ACTE III : LE GENRE ============ -->
+    <section id="genre" class="section genre" data-chapter="ACTE III — LE GENRE" data-sub="— Et si on changeait de film ?">
       <div class="container">
-        <div class="act-label" data-fade>ACTE III<span>Le savoir-faire</span></div>
-        <h2 data-split>Mes <em>armes</em> favorites</h2>
+        <div class="act-label" data-fade>ACTE III<span>Le genre</span></div>
+        <h2 data-split>Choisis ton <em>genre</em></h2>
+        <p class="genre-lead" data-fade>Cette page n'est qu'un décor. Change le genre du film : lumière, couleurs, musique — tout bascule. À toi de jouer.</p>
 
-        <ul class="skill-list">
-          <li class="skill" data-cursor="+">
-            <span class="sk-idx">01</span><span class="sk-name">UI / UX Design</span>
-            <span class="sk-tools">Recherche · Wireframes · Design systems</span>
-            <span class="sk-lvl"><b data-count="95">0</b>%</span><i class="sk-bar"><u data-level="95"></u></i>
-          </li>
-          <li class="skill" data-cursor="+">
-            <span class="sk-idx">02</span><span class="sk-name">Figma &amp; Prototypage</span>
-            <span class="sk-tools">Auto-layout · Variables · Prototypes</span>
-            <span class="sk-lvl"><b data-count="98">0</b>%</span><i class="sk-bar"><u data-level="98"></u></i>
-          </li>
-          <li class="skill" data-cursor="+">
-            <span class="sk-idx">03</span><span class="sk-name">Front-end</span>
-            <span class="sk-tools">HTML · CSS · JavaScript moderne</span>
-            <span class="sk-lvl"><b data-count="92">0</b>%</span><i class="sk-bar"><u data-level="92"></u></i>
-          </li>
-          <li class="skill" data-cursor="+">
-            <span class="sk-idx">04</span><span class="sk-name">Motion &amp; WebGL</span>
-            <span class="sk-tools">Anime.js · Three.js · Vanta · Lenis</span>
-            <span class="sk-lvl"><b data-count="88">0</b>%</span><i class="sk-bar"><u data-level="88"></u></i>
-          </li>
-          <li class="skill" data-cursor="+">
-            <span class="sk-idx">05</span><span class="sk-name">Identité de marque</span>
-            <span class="sk-tools">Logo · Typographie · Direction artistique</span>
-            <span class="sk-lvl"><b data-count="90">0</b>%</span><i class="sk-bar"><u data-level="90"></u></i>
-          </li>
-          <li class="skill" data-cursor="+">
-            <span class="sk-idx">06</span><span class="sk-name">Accessibilité &amp; perf</span>
-            <span class="sk-tools">WCAG · Core Web Vitals · SEO</span>
-            <span class="sk-lvl"><b data-count="82">0</b>%</span><i class="sk-bar"><u data-level="82"></u></i>
-          </li>
-        </ul>
+        <div class="genre-grid" id="genreGrid">
+          <button class="genre-btn" type="button" data-genre="blockbuster" aria-pressed="true" data-cursor="ACTION"><span class="ico">🎬</span><b>Blockbuster</b><small>Explosions de pixels</small></button>
+          <button class="genre-btn" type="button" data-genre="noir" aria-pressed="false" data-cursor="NOIR"><span class="ico">🕵️</span><b>Film noir</b><small>Noir &amp; blanc, pluie</small></button>
+          <button class="genre-btn" type="button" data-genre="scifi" aria-pressed="false" data-cursor="SCI-FI"><span class="ico">🚀</span><b>Science-fiction</b><small>Néons &amp; scanlines</small></button>
+          <button class="genre-btn" type="button" data-genre="western" aria-pressed="false" data-cursor="YEE-HAW"><span class="ico">🤠</span><b>Western</b><small>Soleil &amp; poussière</small></button>
+          <button class="genre-btn" type="button" data-genre="horreur" aria-pressed="false" data-cursor="BOO"><span class="ico">👻</span><b>Horreur</b><small>Lumière qui grésille</small></button>
+          <button class="genre-btn" type="button" data-genre="comedie" aria-pressed="false" data-cursor="HAHA"><span class="ico">🎉</span><b>Comédie</b><small>Couleurs pop</small></button>
+        </div>
+
+        <div class="genre-screen" data-fade>
+          <p class="genre-name" id="genreName">BLOCKBUSTER</p>
+          <p class="genre-tag" id="genreTag">Cet été, un scroll va tout changer.</p>
+        </div>
       </div>
     </section>
 
-    <!-- ============ ACTE IV : LE SCÉNARIO ============ -->
-    <section id="process" class="section process" data-chapter="ACTE IV — LE SCÉNARIO">
+    <!-- ============ ACTE IV : LE SAVOIR-FAIRE ============ -->
+    <section id="skills" class="section skills" data-chapter="ACTE IV — LE SAVOIR-FAIRE" data-sub="[ Un clavier crépite dans le silence ]">
       <div class="container">
-        <div class="act-label" data-fade>ACTE IV<span>Le scénario</span></div>
+        <div class="act-label" data-fade>ACTE IV<span>Le savoir-faire</span></div>
+        <h2 data-split>Mes <em>armes</em> favorites</h2>
+
+        <ul class="skill-list">
+          <li class="skill" data-cursor="+"><span class="sk-idx">01</span><span class="sk-name">Code &amp; debug</span><span class="sk-tools">JavaScript · TypeScript · Python · PHP · SQL…</span><span class="sk-go">→</span></li>
+          <li class="skill" data-cursor="+"><span class="sk-idx">02</span><span class="sk-name">Écriture &amp; traduction</span><span class="sk-tools">Fiction · Mails · Articles · Corrections</span><span class="sk-go">→</span></li>
+          <li class="skill" data-cursor="+"><span class="sk-idx">03</span><span class="sk-name">Analyse &amp; raisonnement</span><span class="sk-tools">Problèmes · Données · Arbitrages</span><span class="sk-go">→</span></li>
+          <li class="skill" data-cursor="+"><span class="sk-idx">04</span><span class="sk-name">Pédagogie</span><span class="sk-tools">Expliquer à un enfant… ou à un expert</span><span class="sk-go">→</span></li>
+          <li class="skill" data-cursor="+"><span class="sk-idx">05</span><span class="sk-name">Idées &amp; brainstorming</span><span class="sk-tools">Noms · Concepts · Scénarios · Plans B</span><span class="sk-go">→</span></li>
+          <li class="skill" data-cursor="+"><span class="sk-idx">06</span><span class="sk-name">Design &amp; front-end</span><span class="sk-tools">HTML · CSS · Animations · Ce site-ci</span><span class="sk-go">→</span></li>
+        </ul>
+        <p class="footnote">* Je peux me tromper : pour les choses importantes, vérifie. Je préfère qu'on le dise.</p>
+      </div>
+    </section>
+
+    <!-- ============ ACTE V : LE SCÉNARIO ============ -->
+    <section id="process" class="section process" data-chapter="ACTE V — LE SCÉNARIO" data-sub="— On pose le décor avant de tourner.">
+      <div class="container">
+        <div class="act-label" data-fade>ACTE V<span>Le scénario</span></div>
         <h2 data-split>Du premier plan au <em>générique</em></h2>
 
         <div class="steps" id="steps">
@@ -297,57 +339,74 @@
 
           <div class="step">
             <span class="step-n">01</span>
-            <h3>Découverte</h3>
-            <p>On pose le décor : objectifs, public, ambiance. J'écoute avant de dessiner la moindre ligne.</p>
+            <h3>Comprendre</h3>
+            <p>Qu'est-ce que tu veux vraiment ? Je pose les bonnes questions avant d'écrire la moindre ligne.</p>
           </div>
           <div class="step">
             <span class="step-n">02</span>
-            <h3>Storyboard</h3>
-            <p>Wireframes, moodboards et direction artistique. On valide l'histoire avant de tourner.</p>
+            <h3>Esquisser</h3>
+            <p>Un plan, des options, un premier jet. On valide l'histoire avant de tourner.</p>
           </div>
           <div class="step">
             <span class="step-n">03</span>
-            <h3>Tournage</h3>
-            <p>Design d'interface haute fidélité, motion et prototypes interactifs : le film prend vie.</p>
+            <h3>Construire</h3>
+            <p>Le texte, le code, l'idée prennent forme — et on ajuste ensemble, plan par plan.</p>
           </div>
           <div class="step">
             <span class="step-n">04</span>
-            <h3>Post-production</h3>
-            <p>Intégration pixel-perfect, animations, performances, mise en ligne. Clap de fin.</p>
+            <h3>Vérifier</h3>
+            <p>Relecture, tests, doutes à voix haute. Clap de fin quand c'est solide.</p>
           </div>
         </div>
       </div>
     </section>
 
+    <!-- ============ BÊTISIER ============ -->
+    <section id="bloopers" class="section bloopers" data-chapter="LE BÊTISIER" data-sub="[ Rires dans la salle ]">
+      <div class="container">
+        <div class="act-label" data-fade>BONUS<span>Le bêtisier</span></div>
+        <h2 data-split>Les <em>prises</em> ratées</h2>
+        <p class="genre-lead" data-fade>Même les meilleurs films ont des prises ratées. Retourne les cartes.</p>
+
+        <div class="blooper-grid">
+          <button class="flip" type="button" data-cursor="RETOURNE"><div class="flip-in"><div class="face front"><div class="take"><small>PRISE</small>03</div><span class="hint">Retourne-moi ↻</span></div><div class="face back"><p>On m'a demandé « une réponse courte ». J'ai écrit trois paragraphes. Prise 4 : « Oui. »</p></div></div></button>
+          <button class="flip" type="button" data-cursor="RETOURNE"><div class="flip-in"><div class="face front"><div class="take"><small>PRISE</small>07</div><span class="hint">Retourne-moi ↻</span></div><div class="face back"><p>Moi : « Voici le code complet. » Le code : « // … le reste est inchangé ».</p></div></div></button>
+          <button class="flip" type="button" data-cursor="RETOURNE"><div class="flip-in"><div class="face front"><div class="take"><small>PRISE</small>12</div><span class="hint">Retourne-moi ↻</span></div><div class="face back"><p>J'ai conseillé « redémarre et réessaie ». Le bug se trouvait dans mon conseil. Prise 13 : j'ai relu.</p></div></div></button>
+          <button class="flip" type="button" data-cursor="RETOURNE"><div class="flip-in"><div class="face front"><div class="take"><small>PRISE</small>19</div><span class="hint">Retourne-moi ↻</span></div><div class="face back"><p>On m'a demandé si j'aimais le café. J'ai répondu avec beaucoup trop de détails sur la caféine.</p></div></div></button>
+          <button class="flip" type="button" data-cursor="RETOURNE"><div class="flip-in"><div class="face front"><div class="take"><small>PRISE</small>24</div><span class="hint">Retourne-moi ↻</span></div><div class="face back"><p>Il reste peut-être une coquille quelque part sur ce site. Cherche-la, un cookie imaginaire à la clé.</p></div></div></button>
+          <button class="flip" type="button" data-cursor="RETOURNE"><div class="flip-in"><div class="face front"><div class="take"><small>PRISE</small>31</div><span class="hint">Retourne-moi ↻</span></div><div class="face back"><p>Quatre cents lignes de code. Un point-virgule manquant. Un seul caractère. Classique.</p></div></div></button>
+        </div>
+      </div>
+    </section>
+
     <!-- ============ GÉNÉRIQUE DE FIN / CONTACT ============ -->
-    <section id="credits" class="credits" data-chapter="GÉNÉRIQUE DE FIN">
+    <section id="credits" class="credits" data-chapter="GÉNÉRIQUE DE FIN" data-sub="[ Applaudissements ]">
       <div class="credits-sticky">
-        <div id="vanta-fog" class="vanta-layer"></div>
+        <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
         <div class="credits-shade"></div>
 
         <div class="credits-col" id="creditsCol">
           <p class="cr-title">Générique</p>
 
-          <div class="cr-block"><small>Direction artistique</small><strong>Noa Verdier</strong></div>
-          <div class="cr-block"><small>Design d'interface</small><strong>Noa Verdier</strong></div>
-          <div class="cr-block"><small>Développement front-end</small><strong>Noa Verdier</strong></div>
-          <div class="cr-block"><small>Motion design</small><strong>Noa Verdier</strong></div>
-          <div class="cr-block"><small>Café</small><strong>Beaucoup trop</strong></div>
-          <div class="cr-block"><small>Avec la participation de</small><strong>Vanta.js · Anime.js · Lenis</strong></div>
-          <div class="cr-block"><small>Remerciements</small><strong>Mes clients &amp; les montagnes du Vercors</strong></div>
+          <div class="cr-block"><small>Réalisation</small><strong>Claude</strong></div>
+          <div class="cr-block"><small>Scénario &amp; dialogues</small><strong>Claude</strong></div>
+          <div class="cr-block"><small>Direction technique</small><strong>HTML · CSS · JavaScript</strong></div>
+          <div class="cr-block"><small>Effets spéciaux</small><strong>Canvas · GSAP · Lenis · WebAudio</strong></div>
+          <div class="cr-block"><small>Musique</small><strong>Générée en direct, dans ton navigateur</strong></div>
+          <div class="cr-block"><small>Producteur exécutif</small><strong>ikour</strong></div>
+          <div class="cr-block"><small>Café consommé</small><strong>0 (je ne bois pas)</strong></div>
+          <div class="cr-block"><small>Rôle principal</small><strong>Toi</strong></div>
+          <div class="cr-block"><small>Remerciements</small><strong>Aux curieux, aux patients, à ceux qui relisent</strong></div>
 
           <div class="cr-final">
-            <p class="cr-kicker">Un projet en tête ?</p>
-            <a class="cr-mail magnetic" href="mailto:hello@noaverdier.fr" data-cursor="ÉCRIRE">hello@noaverdier.fr</a>
-            <div class="cr-social">
-              <a href="#" target="_blank" rel="noopener" data-scramble>Dribbble</a>
-              <a href="#" target="_blank" rel="noopener" data-scramble>Behance</a>
-              <a href="#" target="_blank" rel="noopener" data-scramble>LinkedIn</a>
-              <a href="#" target="_blank" rel="noopener" data-scramble>Instagram</a>
+            <p class="cr-kicker">Une idée en tête ?</p>
+            <div class="cr-cta">
+              <a class="btn btn-primary magnetic" href="https://claude.ai" target="_blank" rel="noopener" data-cursor="HELLO">Viens me parler</a>
+              <button class="btn btn-ghost magnetic" id="replay" type="button" data-cursor="↺">Rejouer le film</button>
             </div>
+            <p class="cr-egg">Psst : essaie ↑ ↑ ↓ ↓ ← → ← → B A · ou appuie sur « C »</p>
             <p class="fin">FIN</p>
-            <button class="btn btn-ghost magnetic" id="replay" type="button" data-cursor="↺">Rejouer le film</button>
-            <p class="copyright">© 2026 Noa Verdier — Tous droits réservés</p>
+            <p class="copyright">© 2026 Claude, le film — Tous droits réservés (surtout ceux du spectateur)</p>
           </div>
         </div>
       </div>
@@ -356,10 +415,8 @@
   </main>
 
   <!-- ============ LIBRAIRIES ============ -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vanta@0.5.24/dist/vanta.net.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vanta@0.5.24/dist/vanta.fog.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
   <script src="script.js"></script>
 </body>
